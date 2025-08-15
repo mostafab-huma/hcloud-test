@@ -1,11 +1,13 @@
-# Use a lightweight base image
-FROM alpine:latest
+FROM nginx:alpine
 
-# Set working directory
-WORKDIR /app
+# Remove default nginx index page
+RUN rm -rf /usr/share/nginx/html/*
 
-# Create a simple file to test the build
-RUN echo "Docker build successful!" > test.txt
+# Add a beautiful Hello World index.html
+COPY index.html /usr/share/nginx/html/index.html
 
-# Default command
-CMD ["cat", "test.txt"]
+# Expose port 80
+EXPOSE 80
+
+# Start nginx
+CMD ["nginx", "-g", "daemon off;"]
